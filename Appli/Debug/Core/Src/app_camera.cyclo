@@ -1,0 +1,7 @@
+../Core/Src/app_camera.c:34:6:app_camera_init	5
+../Core/Src/app_camera.c:70:6:app_camera_display_pipe_start	1
+../Core/Src/app_camera.c:75:6:app_camera_nn_pipe_start	1
+../Core/Src/app_camera.c:80:6:app_camera_isp_update	1
+../Core/Src/app_camera.c:115:19:MX_DCMIPP_ClockConfig	1
+../Core/Src/app_camera.c:133:5:CMW_CAMERA_PIPE_VsyncEventCallback	5
+../Core/Src/app_camera.c:153:5:CMW_CAMERA_PIPE_FrameEventCallback	5

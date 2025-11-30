@@ -1,0 +1,10 @@
+C:/Users/dahuange/STM32Cube/Repository/STM32Cube_FW_N6_V1.2.0/Middlewares/ST/STM32_ExtMem_Manager/stm32_extmem.c:121:22:EXTMEM_Init	8	static
+C:/Users/dahuange/STM32Cube/Repository/STM32Cube_FW_N6_V1.2.0/Middlewares/ST/STM32_ExtMem_Manager/stm32_extmem.c:203:22:EXTMEM_DeInit	8	static
+C:/Users/dahuange/STM32Cube/Repository/STM32Cube_FW_N6_V1.2.0/Middlewares/ST/STM32_ExtMem_Manager/stm32_extmem.c:266:22:EXTMEM_Read	8	static
+C:/Users/dahuange/STM32Cube/Repository/STM32Cube_FW_N6_V1.2.0/Middlewares/ST/STM32_ExtMem_Manager/stm32_extmem.c:332:22:EXTMEM_Write	8	static
+C:/Users/dahuange/STM32Cube/Repository/STM32Cube_FW_N6_V1.2.0/Middlewares/ST/STM32_ExtMem_Manager/stm32_extmem.c:398:22:EXTMEM_WriteInMappedMode	0	static
+C:/Users/dahuange/STM32Cube/Repository/STM32Cube_FW_N6_V1.2.0/Middlewares/ST/STM32_ExtMem_Manager/stm32_extmem.c:434:22:EXTMEM_EraseSector	8	static
+C:/Users/dahuange/STM32Cube/Repository/STM32Cube_FW_N6_V1.2.0/Middlewares/ST/STM32_ExtMem_Manager/stm32_extmem.c:568:22:EXTMEM_EraseAll	8	static
+C:/Users/dahuange/STM32Cube/Repository/STM32Cube_FW_N6_V1.2.0/Middlewares/ST/STM32_ExtMem_Manager/stm32_extmem.c:627:22:EXTMEM_GetInfo	8	static
+C:/Users/dahuange/STM32Cube/Repository/STM32Cube_FW_N6_V1.2.0/Middlewares/ST/STM32_ExtMem_Manager/stm32_extmem.c:674:22:EXTMEM_MemoryMappedMode	8	static
+C:/Users/dahuange/STM32Cube/Repository/STM32Cube_FW_N6_V1.2.0/Middlewares/ST/STM32_ExtMem_Manager/stm32_extmem.c:768:22:EXTMEM_GetMapAddress	8	static

@@ -1,0 +1,2 @@
+../Middlewares/STM32_ISP_Library/isp/Src/isp_conf_template.c:38:6:HAL_DCMIPP_PIPE_VsyncEventCallback	8	static
+../Middlewares/STM32_ISP_Library/isp/Src/isp_conf_template.c:57:6:HAL_DCMIPP_PIPE_FrameEventCallback	0	static
