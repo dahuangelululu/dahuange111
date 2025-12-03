@@ -20,11 +20,17 @@
 
 #include "app_camera.h"
 #include "app_config.h"
+#include "app_utils.h"
 #include "app.h"
 #include "stm32n6xx_hal.h"
+#include "cmw_camera.h"
 
-static void app_camera_display_pipe_init(void);
-static void app_camera_nn_pipe_init(void);
+static void app_camera_display_pipe_init(uint32_t sensor_width, uint32_t sensor_height);
+
+
+
+static void app_camera_nn_pipe_init(uint32_t sensor_width, uint32_t sensor_height);
+static void app_camera_init_crop_config(CMW_Manual_roi_area_t *roi, uint32_t sensor_width, uint32_t sensor_height);
 
 static void (*app_camera_display_pipe_vsync_user_cb)(void) = NULL;
 static void (*app_camera_display_pipe_frame_user_cb)(void) = NULL;
@@ -43,8 +49,8 @@ void app_camera_init(void (*display_pipe_vsync_cb)(void), void (*display_pipe_fr
     cmw_camera_init.mirror_flip = CAMERA_MIRROR_FLIP;
     CMW_CAMERA_Init(&cmw_camera_init);
 
-    app_camera_display_pipe_init();
-    app_camera_nn_pipe_init();
+    app_camera_display_pipe_init(cmw_camera_init.width, cmw_camera_init.height);
+    app_camera_nn_pipe_init(cmw_camera_init.width, cmw_camera_init.height);
 
     if (display_pipe_vsync_cb != NULL)
     {
@@ -72,9 +78,19 @@ void app_camera_display_pipe_start(uint8_t *display_pipe_destination, uint32_t c
     CMW_CAMERA_Start(DCMIPP_PIPE1, display_pipe_destination, capture_mode);
 }
 
+void app_camera_display_pipe_set_address(uint8_t *display_pipe_destination)
+{
+    HAL_DCMIPP_PIPE_SetMemoryAddress(CMW_CAMERA_GetDCMIPPHandle(), DCMIPP_PIPE1, DCMIPP_MEMORY_ADDRESS_0, (uint32_t)display_pipe_destination);
+}
+
 void app_camera_nn_pipe_start(uint8_t *nn_pipe_destination, uint32_t capture_mode)
 {
     CMW_CAMERA_Start(DCMIPP_PIPE2, nn_pipe_destination, capture_mode);
+}
+
+void app_camera_nn_pipe_set_address(uint8_t *nn_pipe_destination)
+{
+    HAL_DCMIPP_PIPE_SetMemoryAddress(CMW_CAMERA_GetDCMIPPHandle(), DCMIPP_PIPE2, DCMIPP_MEMORY_ADDRESS_0, (uint32_t)nn_pipe_destination);
 }
 
 void app_camera_isp_update(void)
@@ -82,7 +98,7 @@ void app_camera_isp_update(void)
     CMW_CAMERA_Run();
 }
 
-static void app_camera_display_pipe_init(void)
+static void app_camera_display_pipe_init(uint32_t sensor_width, uint32_t sensor_height)
 {
     CMW_DCMIPP_Conf_t cmw_dcmipp_conf = {0};
     uint32_t hw_pitch;
@@ -91,25 +107,52 @@ static void app_camera_display_pipe_init(void)
     cmw_dcmipp_conf.output_height = LCD_BG_HEIGHT;
     cmw_dcmipp_conf.output_format = DCMIPP_PIXEL_PACKER_FORMAT_RGB565_1;
     cmw_dcmipp_conf.output_bpp = 2;
+    hw_pitch = LCD_BG_WIDTH * 2;
+
+
+
     cmw_dcmipp_conf.enable_swap = 0;
     cmw_dcmipp_conf.enable_gamma_conversion = 0;
-    cmw_dcmipp_conf.mode = CMW_Aspect_ratio_crop;
+    cmw_dcmipp_conf.mode = CMW_Aspect_ratio_manual_roi;
+    app_camera_init_crop_config(&cmw_dcmipp_conf.manual_conf, sensor_width, sensor_height);
     CMW_CAMERA_SetPipeConfig(DCMIPP_PIPE1, &cmw_dcmipp_conf, &hw_pitch);
 }
 
-static void app_camera_nn_pipe_init(void)
+static void app_camera_nn_pipe_init(uint32_t sensor_width, uint32_t sensor_height)
 {
     CMW_DCMIPP_Conf_t cmw_dcmipp_conf = {0};
-    uint32_t hw_pitch;
 
-    cmw_dcmipp_conf.output_width = NN_WIDTH;
+    // ★ 先完整填写配置
+    cmw_dcmipp_conf.output_width  = NN_WIDTH;
     cmw_dcmipp_conf.output_height = NN_HEIGHT;
     cmw_dcmipp_conf.output_format = NN_FORMAT;
-    cmw_dcmipp_conf.output_bpp = NN_BPP;
+    cmw_dcmipp_conf.output_bpp    = NN_BPP;
     cmw_dcmipp_conf.enable_swap = 1;
     cmw_dcmipp_conf.enable_gamma_conversion = 0;
-    cmw_dcmipp_conf.mode = CMW_Aspect_ratio_crop;
+    cmw_dcmipp_conf.mode = CMW_Aspect_ratio_manual_roi;
+    app_camera_init_crop_config(&cmw_dcmipp_conf.manual_conf, sensor_width, sensor_height);
+
+    // ★ 再计算 pitch，并且只调用一次 SetPipeConfig
+    uint32_t hw_pitch = NN_WIDTH * NN_BPP;
     CMW_CAMERA_SetPipeConfig(DCMIPP_PIPE2, &cmw_dcmipp_conf, &hw_pitch);
+}
+
+
+
+static void app_camera_init_crop_config(CMW_Manual_roi_area_t *roi, uint32_t sensor_width, uint32_t sensor_height)
+{
+    float ratiox;
+    float ratioy;
+    float ratio;
+
+    ratiox = (float)sensor_width / LCD_BG_WIDTH;
+    ratioy = (float)sensor_height / LCD_BG_HEIGHT;
+    ratio = MIN(ratiox, ratioy);
+
+    roi->width = (uint32_t)MIN(LCD_BG_WIDTH * ratio, sensor_width);
+    roi->height = (uint32_t)MIN(LCD_BG_HEIGHT * ratio, sensor_height);
+    roi->offset_x = (sensor_width - roi->width + 1) / 2;
+    roi->offset_y = (sensor_height - roi->height + 1) / 2;
 }
 
 HAL_StatusTypeDef MX_DCMIPP_ClockConfig(DCMIPP_HandleTypeDef *hdcmipp)

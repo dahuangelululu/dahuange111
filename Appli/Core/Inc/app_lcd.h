@@ -40,4 +40,7 @@ uint8_t *app_lcd_get_bg_buffer(void);
 void app_lcd_draw_area_update(void);
 void app_lcd_draw_area_commit(void);
 
+	uint8_t *app_lcd_get_bg_buffer(void);
+	void app_lcd_switch_bg_buffer(void);
+
 #endif

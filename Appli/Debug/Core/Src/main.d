@@ -55,16 +55,16 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  E:/dahuange/Appli/Middlewares/ST/AI/Npu/Devices/STM32N6XX/mcu_cache.h \
  E:/dahuange/Appli/Middlewares/ST/AI/Npu/Devices/STM32N6XX/ATON.h \
  E:/dahuange/Appli/Middlewares/ST/AI/Npu/ll_aton/ll_aton_rcompat.h \
- E:/dahuange/Drivers/BSP/LCD/bsp_lcd.h E:/dahuange/Drivers/BSP/LCD/lcd.h \
- ../Core/Inc/app_lcd.h ../Core/Inc/stm32_lcd.h \
- ../Core/Inc/../Fonts/fonts.h E:/dahuange/Drivers/BSP/LCD/lcd.h \
- ../Core/Inc/stm32_lcd_ex.h ../Core/Inc/app_camera.h \
  ../Core/Inc/cmw_camera.h ../Core/Inc/cmw_errno.h \
  E:/dahuange/Appli/Middlewares/STM32_MW_CAMERA/cmw_camera_conf.h \
  E:/dahuange/Drivers/BSP/BUS/bsp_bus.h ../Core/Inc/cmw_sensors_if.h \
  ../Core/Inc/isp_core.h \
  E:/dahuange/Appli/Middlewares/STM32_MW_ISP/isp_conf.h \
- ../Core/Inc/isp_platform.h
+ ../Core/Inc/isp_platform.h ../Core/Inc/app_camera.h \
+ ../Core/Inc/cmw_camera.h ../Core/Inc/app_lcd.h ../Core/Inc/stm32_lcd.h \
+ ../Core/Inc/../Fonts/fonts.h E:/dahuange/Drivers/BSP/LCD/lcd.h \
+ ../Core/Inc/stm32_lcd_ex.h ../Core/Inc/app_config.h \
+ E:/dahuange/Drivers/BSP/LCD/bsp_lcd.h E:/dahuange/Drivers/BSP/LCD/lcd.h
 ../Core/Inc/main.h:
 C:/Users/dahuange/STM32Cube/Repository/STM32Cube_FW_N6_V1.2.0/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:
 ../Core/Inc/stm32n6xx_hal_conf.h:
@@ -130,14 +130,6 @@ E:/dahuange/Appli/Middlewares/ST/AI/Npu/ll_aton/ll_aton_platform.h:
 E:/dahuange/Appli/Middlewares/ST/AI/Npu/Devices/STM32N6XX/mcu_cache.h:
 E:/dahuange/Appli/Middlewares/ST/AI/Npu/Devices/STM32N6XX/ATON.h:
 E:/dahuange/Appli/Middlewares/ST/AI/Npu/ll_aton/ll_aton_rcompat.h:
-E:/dahuange/Drivers/BSP/LCD/bsp_lcd.h:
-E:/dahuange/Drivers/BSP/LCD/lcd.h:
-../Core/Inc/app_lcd.h:
-../Core/Inc/stm32_lcd.h:
-../Core/Inc/../Fonts/fonts.h:
-E:/dahuange/Drivers/BSP/LCD/lcd.h:
-../Core/Inc/stm32_lcd_ex.h:
-../Core/Inc/app_camera.h:
 ../Core/Inc/cmw_camera.h:
 ../Core/Inc/cmw_errno.h:
 E:/dahuange/Appli/Middlewares/STM32_MW_CAMERA/cmw_camera_conf.h:
@@ -146,3 +138,13 @@ E:/dahuange/Drivers/BSP/BUS/bsp_bus.h:
 ../Core/Inc/isp_core.h:
 E:/dahuange/Appli/Middlewares/STM32_MW_ISP/isp_conf.h:
 ../Core/Inc/isp_platform.h:
+../Core/Inc/app_camera.h:
+../Core/Inc/cmw_camera.h:
+../Core/Inc/app_lcd.h:
+../Core/Inc/stm32_lcd.h:
+../Core/Inc/../Fonts/fonts.h:
+E:/dahuange/Drivers/BSP/LCD/lcd.h:
+../Core/Inc/stm32_lcd_ex.h:
+../Core/Inc/app_config.h:
+E:/dahuange/Drivers/BSP/LCD/bsp_lcd.h:
+E:/dahuange/Drivers/BSP/LCD/lcd.h:

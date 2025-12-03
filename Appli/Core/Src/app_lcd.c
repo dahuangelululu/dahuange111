@@ -23,7 +23,7 @@
 #include "bsp_lcd.h"
 #include <string.h>
 
-static uint8_t app_lcd_bg_buffer[DISPLAY_BUFFER_NB][LCD_BG_WIDTH * LCD_BG_HEIGHT * 3] __attribute__((aligned(32))) __attribute__((section(".EXTRAM")));
+static uint8_t app_lcd_bg_buffer[DISPLAY_BUFFER_NB][LCD_BG_WIDTH * LCD_BG_HEIGHT * 2] __attribute__((aligned(32))) __attribute__((section(".EXTRAM")));
 static uint8_t app_lcd_bg_buffer_disp_idx = 1;
 static uint8_t app_lcd_bg_buffer_fill_idx = 0;
 static uint8_t app_lcd_fg_buffer[2][LCD_FG_WIDTH * LCD_FG_HEIGHT * 2] __attribute__((aligned(32))) __attribute__((section(".EXTRAM")));
@@ -48,7 +48,7 @@ void app_lcd_init(void)
     bsp_lcd_layer_config.y0 = (BSP_LCD_HEIGHT - LCD_BG_HEIGHT) / 2;
     bsp_lcd_layer_config.x1 = bsp_lcd_layer_config.x0 + LCD_BG_WIDTH;
     bsp_lcd_layer_config.y1 = bsp_lcd_layer_config.y0 + LCD_BG_HEIGHT;
-    bsp_lcd_layer_config.pixel_format = LCD_PIXEL_FORMAT_RGB888;
+    bsp_lcd_layer_config.pixel_format = LCD_PIXEL_FORMAT_RGB565;
     bsp_lcd_layer_config.address = (uint32_t)app_lcd_bg_buffer[app_lcd_bg_buffer_disp_idx];
     bsp_lcd_config_layer(0, &bsp_lcd_layer_config);
 

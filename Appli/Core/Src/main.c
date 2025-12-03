@@ -30,16 +30,22 @@
 #include "xspim.h"
 #include "gpio.h"
 #include "app_x-cube-ai.h"
-#include "bsp_lcd.h"
-#include "app_lcd.h"
+#include "cmw_camera.h"
 #include "app_camera.h"
+#include "app_lcd.h"
+#include "app_config.h"  // 提供 LCD_BG_WIDTH / LCD_BG_HEIGHT 宏
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "bsp_lcd.h"
+#include <string.h>
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+
+#define LCD_FRAMEBUFFER_PIXELS   (BSP_LCD_WIDTH * BSP_LCD_HEIGHT)
 
 /* USER CODE END PTD */
 
@@ -55,15 +61,28 @@
 
 /* Private variables ---------------------------------------------------------*/
 
+
+
+
+
+
 /* USER CODE BEGIN PV */
-#define LCD_FRAMEBUFFER_PIXELS   (BSP_LCD_WIDTH * BSP_LCD_HEIGHT)
-static uint16_t lcd_framebuffer[LCD_FRAMEBUFFER_PIXELS];
+
 /* USER CODE END PV */
+static void cam_disp_frame_cb(void)
+{
+    app_lcd_switch_bg_buffer();
+    app_camera_display_pipe_set_address(app_lcd_get_bg_buffer());
+}
 
 /* Private function prototypes -----------------------------------------------*/
 static void SystemIsolation_Config(void);
 /* USER CODE BEGIN PFP */
 
+
+//void app_camera_display_pipe_frame_cb_simple(void);
+//void app_lcd_switch_bg_buffer(void);
+//void app_camera_display_pipe_set_address(uint8_t *display_pipe_destination);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -79,7 +98,8 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+	MEMSYSCTL->MSCR |= MEMSYSCTL_MSCR_ICACTIVE_Msk;
+	MEMSYSCTL->MSCR |= MEMSYSCTL_MSCR_DCACTIVE_Msk;
   /* USER CODE END 1 */
 
   /* Enable the CPU Cache */
@@ -103,39 +123,55 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
- // MX_CACHEAXI_Init();
- // MX_DCMIPP_Init();
- // MX_DMA2D_Init();
- // MX_I2C2_Init();
- // MX_LTDC_Init();
- // MX_RAMCFG_Init();
- // MX_USART1_UART_Init();
- // MX_XSPI1_Init();
- // MX_XSPI2_Init();
- // MX_X_CUBE_AI_Init();
- // SystemIsolation_Config();
+  MX_CACHEAXI_Init();
+  MX_RAMCFG_Init();
+  MX_DCMIPP_Init();
+  MX_DMA2D_Init();
+  MX_I2C2_Init();
+  MX_LTDC_Init();
+  MX_USART1_UART_Init();
+  MX_XSPI1_Init();
+  MX_XSPI2_Init();
+  SystemIsolation_Config();
+  MX_X_CUBE_AI_Init();
   /* USER CODE BEGIN 2 */
-  /* USER CODE BEGIN 2 */
-//app_lcd_init();    // 让它按照示例那套方式初始化 LCD、两层缓冲等
-//app_camera_init(NULL, NULL, NULL, NULL);
-// ↑ 回调参数可以先全传 NULL，等你真的用 NN pipe、显示 pipe 再传回调函数
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < 6; ++i)   // 快闪 2 下，表示进了 Appli
   {
-	  HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_10);
-    HAL_Delay(100);
+    HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_10);
+    HAL_Delay(80);
   }
-// 启动摄像头 → 把图像采集到 LCD 背景缓冲区里（Continuous 模式）
-//app_camera_display_pipe_start(app_lcd_get_bg_buffer(), CMW_MODE_CONTINUOUS);
+
+
+
+  app_lcd_init();
+  /* USER CODE BEGIN 2 */
+
+  // 1) 把后台缓冲全填白（RGB565：2B/像素）
+  memset(app_lcd_get_bg_buffer(), 0xFF, LCD_BG_WIDTH * LCD_BG_HEIGHT * 2);
+
+  // 2) 直接把 Layer0 的地址改成“刚填白的这块”（无需等待索引翻转）
+  HAL_LTDC_SetAddress_NoReload(bsp_lcd_get_ltdc_handle(),
+                               (uint32_t)app_lcd_get_bg_buffer(), 0);
+
+  // 3) 在垂直消隐期一次性重载（避免撕裂，官方推荐时机）
+  HAL_LTDC_ReloadLayer(bsp_lcd_get_ltdc_handle(), LTDC_RELOAD_VERTICAL_BLANKING, 0);
+  HAL_Delay(300);
+
+
+
+
+
+
+  app_camera_init(NULL, cam_disp_frame_cb, NULL, NULL);
+  app_camera_display_pipe_start(app_lcd_get_bg_buffer(), CMW_MODE_CONTINUOUS);
+
   /* USER CODE END 2 */
 
-  /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-	  HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_10);
-	    HAL_Delay(200);
-//  app_camera_isp_update();
+	  app_camera_isp_update();
   //MX_X_CUBE_AI_Process();
     /* USER CODE BEGIN 3 */
   }
@@ -240,6 +276,9 @@ int main(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+
+
 
 /* USER CODE END 4 */
 

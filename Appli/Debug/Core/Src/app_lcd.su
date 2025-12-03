@@ -1,4 +1,4 @@
-../Core/Src/app_lcd.c:35:6:app_lcd_init	48	static,ignoring_inline_asm
+../Core/Src/app_lcd.c:35:6:app_lcd_init	40	static,ignoring_inline_asm
 ../Core/Src/app_lcd.c:80:18:app_lcd_get_bg_area	0	static
 ../Core/Src/app_lcd.c:85:18:app_lcd_get_fg_area	0	static
 ../Core/Src/app_lcd.c:90:10:app_lcd_get_bg_buffer_by_index	0	static

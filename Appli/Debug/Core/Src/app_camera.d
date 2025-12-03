@@ -42,7 +42,8 @@ Core/Src/app_camera.o: ../Core/Src/app_camera.c ../Core/Inc/app_camera.h \
  E:/dahuange/Drivers/BSP/BUS/bsp_bus.h ../Core/Inc/cmw_sensors_if.h \
  ../Core/Inc/isp_core.h \
  E:/dahuange/Appli/Middlewares/STM32_MW_ISP/isp_conf.h \
- ../Core/Inc/isp_platform.h ../Core/Inc/app_config.h ../Core/Inc/app.h
+ ../Core/Inc/isp_platform.h ../Core/Inc/app_config.h \
+ ../Core/Inc/app_utils.h ../Core/Inc/app.h ../Core/Inc/cmw_camera.h
 ../Core/Inc/app_camera.h:
 C:/Users/dahuange/STM32Cube/Repository/STM32Cube_FW_N6_V1.2.0/Drivers/STM32N6xx_HAL_Driver/Inc/stm32n6xx_hal.h:
 ../Core/Inc/stm32n6xx_hal_conf.h:
@@ -91,4 +92,6 @@ E:/dahuange/Drivers/BSP/BUS/bsp_bus.h:
 E:/dahuange/Appli/Middlewares/STM32_MW_ISP/isp_conf.h:
 ../Core/Inc/isp_platform.h:
 ../Core/Inc/app_config.h:
+../Core/Inc/app_utils.h:
 ../Core/Inc/app.h:
+../Core/Inc/cmw_camera.h:

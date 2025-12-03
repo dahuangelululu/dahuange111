@@ -1,7 +1,10 @@
-../Core/Src/app_camera.c:34:6:app_camera_init	104	static
-../Core/Src/app_camera.c:70:6:app_camera_display_pipe_start	0	static
-../Core/Src/app_camera.c:75:6:app_camera_nn_pipe_start	0	static
-../Core/Src/app_camera.c:80:6:app_camera_isp_update	0	static
-../Core/Src/app_camera.c:115:19:MX_DCMIPP_ClockConfig	408	static
-../Core/Src/app_camera.c:133:5:CMW_CAMERA_PIPE_VsyncEventCallback	8	static
-../Core/Src/app_camera.c:153:5:CMW_CAMERA_PIPE_FrameEventCallback	8	static
+../Core/Src/app_camera.c:142:13:app_camera_init_crop_config	0	static
+../Core/Src/app_camera.c:40:6:app_camera_init	120	static
+../Core/Src/app_camera.c:76:6:app_camera_display_pipe_start	0	static
+../Core/Src/app_camera.c:81:6:app_camera_display_pipe_set_address	8	static
+../Core/Src/app_camera.c:86:6:app_camera_nn_pipe_start	0	static
+../Core/Src/app_camera.c:91:6:app_camera_nn_pipe_set_address	8	static
+../Core/Src/app_camera.c:96:6:app_camera_isp_update	0	static
+../Core/Src/app_camera.c:158:19:MX_DCMIPP_ClockConfig	408	static
+../Core/Src/app_camera.c:176:5:CMW_CAMERA_PIPE_VsyncEventCallback	8	static
+../Core/Src/app_camera.c:196:5:CMW_CAMERA_PIPE_FrameEventCallback	8	static
